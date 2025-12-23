@@ -1,0 +1,20 @@
+{
+  "name": "app07-react-nodejs-mysql-online-transaction",
+  "version": "1.0.0",
+  "description": "A demo online transaction system that provides invoicing, receipt and other documentation for various customer servicing and sales activities.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "cd backend && nodemon start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teckling/app07-react-nodejs-mysql-online-transaction.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/teckling/app07-react-nodejs-mysql-online-transaction/issues"
+  },
+  "homepage": "https://github.com/teckling/app07-react-nodejs-mysql-online-transaction#readme"
+}
