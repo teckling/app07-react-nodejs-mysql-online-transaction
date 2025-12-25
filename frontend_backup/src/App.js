@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import ServiceReportFrontendComponent from "./ServiceReportFrontendComponent";
+import ServiceReportLibraryFrontendComponent from "./ServiceReportLibraryFrontendComponent";
 
 function App() {
   const instruction = <div>This is an instruction const</div>;
@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         {instruction}
-        <ServiceReportFrontendComponent />
+        <ServiceReportLibraryFrontendComponent />
         <img src={logo} className="App-logo" alt="logo" />
 
         <p>
