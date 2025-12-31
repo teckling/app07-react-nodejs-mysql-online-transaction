@@ -7,8 +7,8 @@
 var app = require("../app");
 var debug = require("debug")("backend:server");
 var http = require("http");
-var dbConnectionPool = require("../database/connection-pool");
-dbConnectionPool.init();
+var connectionPool = require("../database/connection-pool");
+connectionPool.init();
 
 /**
  * Get port from environment and store in Express.

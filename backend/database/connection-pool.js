@@ -1,13 +1,13 @@
 const mysql = require("mysql2");
 const db = require("../config/db");
-const dbConnectionPool = {
+const connectionPool = {
   pool: null,
   init: function () {
     this.pool = mysql.createPool(db);
   },
-  getPoolConnection: function () {
+  getPool: function () {
     return this.pool;
   },
 };
 
-module.exports = dbConnectionPool;
+module.exports = connectionPool;

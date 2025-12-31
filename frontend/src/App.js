@@ -1,29 +1,26 @@
-import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
-import ServiceReportLibraryFrontendComponent from "./ServiceReportLibraryFrontendComponent";
+import ServiceReportLibraryComponent from "./ServiceReportLibraryComponent";
+import ServiceReportComponent from "./ServiceReportComponent";
+import Header from "./Header";
+
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
-  const instruction = <div>This is an instruction const</div>;
   return (
-    <div className="App">
-      <header className="App-header">
-        {instruction}
-        <ServiceReportLibraryFrontendComponent />
-        <img src={logo} className="App-logo" alt="logo" />
-
-        <p>
-          Hello World! Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={<ServiceReportLibraryComponent />}
+          ></Route>
+          <Route path="/create" element={<ServiceReportComponent />}></Route>
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

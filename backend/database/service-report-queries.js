@@ -1,60 +1,47 @@
-class ServiceReport {
-  constructor(dbConnectionPool) {
-    this.dbConnectionPool = dbConnectionPool;
+class ServiceReportQueries {
+  constructor(connectionPool) {
+    this.connectionPool = connectionPool;
   }
 
-  save(serviceReport) {
-    this.dbConnectionPool
-      .getPoolConnection()
-      .query(
-        "insert into service_reports set ?",
-        serviceReport,
-        (err, result) => {
-          if (err) throw err;
-          console.log(result);
-        }
-      );
+  get pool() {
+    return this.connectionPool.getPool();
   }
-  get(id) {
-    this.dbConnectionPool
-      .getPoolConnection()
-      .query(
-        "select * from service_reports where id = ?",
-        id,
-        (err, result) => {
-          if (err) throw err;
-          console.log(result);
-        }
-      );
+
+  save(serviceReport, errorCallback) {
+    this.pool.query(
+      "insert into service_reports set ?",
+      serviceReport,
+      errorCallback
+    );
   }
-  getAll() {
-    this.dbConnectionPool
-      .getPoolConnection()
-      .query("select * from service_reports", (err, result) => {
-        if (err) throw err;
-        console.log(result);
-      });
+  get(id, errorCallback) {
+    this.pool.query(
+      "select * from service_reports where id = ?",
+      id,
+      errorCallback
+    );
   }
-  update(id, serviceReport) {
-    this.dbConnectionPool
-      .getPoolConnection()
-      .query(
-        "update service_reports set ? where id = ?",
-        [serviceReport, id],
-        (err, result) => {
-          if (err) throw err;
-          console.log(result);
-        }
-      );
+
+  getAll(errorCallback) {
+    this.pool.query("select * from service_reports", errorCallback);
   }
-  delete(id) {
-    this.dbConnectionPool
-      .getPoolConnection()
-      .query("delete from service_reports where id = ?", id, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-      });
+
+  update(id, serviceReport, errorCallback) {
+    // should verify if id is valid
+    this.pool.query(
+      "update service_reports set ? where id = ?",
+      [serviceReport, id],
+      errorCallback
+    );
+  }
+
+  delete(id, errorCallback) {
+    this.pool.query(
+      "delete from service_reports where id = ?",
+      id,
+      errorCallback
+    );
   }
 }
 
-module.exports = ServiceReport;
+module.exports = ServiceReportQueries;

@@ -1,36 +1,60 @@
 const express = require("express");
 const router = express.Router();
-const dbConnectionPool = require("../database/connection-pool");
-const ServiceReport = require("../database/service-report-queries");
+const connectionPool = require("../database/connection-pool");
+const ServiceReportQueries = require("../database/service-report-queries");
 
-let serviceReport = new ServiceReport(dbConnectionPool);
+let serviceReportQueries = new ServiceReportQueries(connectionPool);
 
 router.get("/:id", function (req, res) {
-  serviceReport.get(req.params.id);
-  console.log("report id is", req.params.id);
-  res.sendStatus(200);
+  serviceReportQueries.get(req.params.id, (err, result) => {
+    if (err) {
+      res.status(500).json(err.toString());
+    } else {
+      res.status(200).json(result);
+    }
+  });
 });
 
 router.put("/:id", function (req, res) {
-  serviceReport.update(req.params.id, req.body);
-  res.sendStatus(200);
-  console.log("the request body is", req.body);
-  res.sendStatus(200);
+  serviceReportQueries.update(req.params.id, req.body, (err, result) => {
+    if (err) {
+      res.status(500).json(err.toString());
+    } else {
+      //      console.log("the request id and body are", req.params.id, req.body);
+      res.sendStatus(200);
+    }
+  });
 });
 
 router.delete("/:id", function (req, res) {
-  serviceReport.delete(req.params.id);
-  res.sendStatus(200);
+  serviceReportQueries.delete(req.params.id, (err, result) => {
+    if (err) {
+      res.status(500).json(err.toString());
+    } else {
+      res.sendStatus(200);
+    }
+  });
 });
 
 router.post("/", function (req, res) {
-  serviceReport.save(req.body);
-  res.sendStatus(200);
+  // console.log(req.body);
+  serviceReportQueries.save(req.body, (err, result) => {
+    if (err) {
+      res.status(500).json(err.toString());
+    } else {
+      res.sendStatus(200);
+    }
+  });
 });
 
 router.get("/", function (req, res) {
-  serviceReport.getAll();
-  res.sendStatus(200);
+  serviceReportQueries.getAll((err, result) => {
+    if (err) {
+      res.status(500).json(err.toString());
+    } else {
+      res.status(200).json(result);
+    }
+  });
 });
 
 module.exports = router;
