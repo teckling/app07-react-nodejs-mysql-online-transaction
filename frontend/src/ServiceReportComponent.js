@@ -2,21 +2,60 @@ import React from "react";
 import "./ServiceReportComponent.css";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import FlashMessageComponent from "./FlashMessageComponent";
 
 class ServiceReportComponent extends React.Component {
+  validation = {
+    customer_name: {
+      rule: /^\S.{0,48}\S$/,
+      message: "customer name should have 2-50 characters",
+    },
+
+    service_summary: {
+      rule: /^\S.{0,78}\S$/,
+      message: "customer name should have 2-80 characters",
+    },
+    service_completion: {
+      rule: /^\d{4}-\d{2}-\d{2}$/,
+      message: "date format should be yyyy-mm-dd",
+    },
+  };
   constructor(props) {
     super(props);
     this.state = {
       customer_name: "",
       service_summary: "",
       service_completion: "",
+      submittedAttempts: 0,
     };
     // bind 'this' to book object not the DOM object
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  validate() {
+    for (let field in this.validation) {
+      const rule = this.validation[field].rule;
+      const message = this.validation[field].message;
+      const value = this.state[field];
+
+      if (!value.match(rule)) {
+        this.setState({
+          message: message,
+          submittedAttempts: this.state.submittedAttempts + 1,
+        });
+        return false;
+      }
+    }
+    return true;
+  }
+
   handleSubmit(event) {
+    event.preventDefault();
+
+    if (!this.validate()) {
+      return;
+    }
     let { customer_name, service_summary, service_completion } = this.state;
     const newServiceReport = {
       customer_name: customer_name,
@@ -27,7 +66,6 @@ class ServiceReportComponent extends React.Component {
       .post(process.env.REACT_APP_SERVER_URL, newServiceReport)
       .then((result) => this.setState({ serviceReportCreated: true }))
       .catch((error) => console.log(error));
-    event.preventDefault();
   }
 
   handleChange(event) {
@@ -67,6 +105,11 @@ class ServiceReportComponent extends React.Component {
             id="service_completion"
           />
           <input type="submit" value="Save" />
+          <FlashMessageComponent
+            key={this.state.submittedAttempts}
+            message={this.state.message}
+            duration="3000"
+          />
         </form>
       </div>
     );
